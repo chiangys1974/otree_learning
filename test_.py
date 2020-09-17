@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def talents():
     return np.random.randint(0, 100, 3)
 
