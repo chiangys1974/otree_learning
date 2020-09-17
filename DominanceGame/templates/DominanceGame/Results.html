@@ -1,0 +1,21 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Page title
+{% endblock %}
+
+{% block content %}
+
+    <br><br><br> <h5>以下是您截至目前的勝率：</h5>
+            <p> {{winning_rate}} </p>
+
+    {% if ranking_or_not %}
+        <br><br><br> <h5>以下是您目前的排名：</h5>
+            <p> {{ranking_record}} </p>
+    {% endif %}
+
+    {% next_button %}
+{% endblock %}
+
+

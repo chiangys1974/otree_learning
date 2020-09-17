@@ -1,0 +1,22 @@
+
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block content %}
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>您是玩家 {{cur_id}}</p>
+<p>您的對手是 {{rival}}</p>
+<p>您的天賦是 {{your_talent}}</p>
+<div align="center" style="font-size:20px; color: #E63F00; font-weight:bold; font-size:22px;">
+                    {% formfield player.efforts label="你要用幾分力？" %}<br>
+</body>
+</html>
+{% next_button %}
+{% endblock %}
