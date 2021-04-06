@@ -6,17 +6,25 @@ from os import environ
 # e.g. self.session.config['participation_fee']
 
 SESSION_CONFIG_DEFAULTS = {
-    'real_world_currency_per_point': 1.00,
-    'participation_fee': 0.00,
+    'real_world_currency_per_point': 10,
+    'participation_fee': 150,
     'doc': "",
 }
 
 SESSION_CONFIGS = [
     {
-        'name': 'DominanceGame',
-        'display_name': "DominanceGame",
+        'name': 'DominanceGameLow',
+        'display_name': "DominanceGameLow",
         'num_demo_participants': 4,
         'app_sequence': ['DominanceGame'],
+        'talent_variation': '低',
+    },
+    {
+        'name': 'DominanceGameHigh',
+        'display_name': "DominanceGameHigh",
+        'num_demo_participants': 4,
+        'app_sequence': ['DominanceGame'],
+        'talent_variation': '高',
     },
 ]
 
@@ -26,10 +34,21 @@ SESSION_CONFIGS = [
 LANGUAGE_CODE = 'en'
 
 # e.g. EUR, GBP, CNY, JPY
-REAL_WORLD_CURRENCY_CODE = 'USD'
+REAL_WORLD_CURRENCY_CODE = 'TWD'
 USE_POINTS = True
 
-ROOMS = []
+ROOMS = [
+    {
+         'name': 'DominanceGameLow',
+         'display_name': 'DominanceGameLow',
+         'participant_label_file': './players_labels.txt',
+    },
+    {
+        'name': 'DominanceGameHigh',
+        'display_name': 'DominanceGameHigh',
+        'participant_label_file': './players_labels.txt',
+    }
+]
 
 ADMIN_USERNAME = 'admin'
 # for security, best to set admin password in an environment variable

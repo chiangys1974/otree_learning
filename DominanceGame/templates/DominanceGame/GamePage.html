@@ -10,13 +10,373 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
-<p>您是玩家 {{cur_id}}</p>
-<p>您的對手是 {{rival}}</p>
-<p>您的天賦是 {{your_talent}}</p>
-<div align="center" style="font-size:20px; color: #E63F00; font-weight:bold; font-size:22px;">
-                    {% formfield player.efforts label="你要用幾分力？" %}<br>
-</body>
-</html>
-{% next_button %}
+
+<div id="left">
+    <figure class="highcharts-figure">
+    <div id="container"></div>
+    </figure>
+
+</div>
+
+<div id="right">
+    <figure class="highcharts-figure">
+    <div id="containerV"></div>
+    </figure>
+</div>
+
+<div id="bottom">
+    <h2>{% formfield player.efforts label="您要用多少努力？" %}</h2>
+    <p>
+        {% next_button %}
+    </p>
+</div>
+
+
+<style>
+ #left {
+ float:left;
+ width:50%;
+ height:280px;
+ }
+
+ #right {
+ float:right;
+ width:50%;
+ height:280px;
+ }
+
+ #bottom {
+ float:right;
+ width:100%;
+ height:280px;
+ margin-top:200px;
+ margin_bottom:50px;
+ }
+</style>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<style>
+    #container {
+    height: 400px;
+}
+
+.highcharts-figure, .highcharts-data-table table {
+    min-width: 310px;
+    max-width: 800px;
+    margin: 1em auto;
+}
+
+.highcharts-data-table table {
+    font-family: Verdana, sans-serif;
+    border-collapse: collapse;
+    border: 1px solid #EBEBEB;
+    margin: 10px auto;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+.highcharts-data-table caption {
+    padding: 1em 0;
+    font-size: 1.2em;
+    color: #555;
+}
+.highcharts-data-table th {
+	font-weight: 600;
+    padding: 0.5em;
+}
+.highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+    padding: 0.5em;
+}
+.highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+.highcharts-data-table tr:hover {
+    background: #f1f7ff;
+}
+</style>
+
+<script>
+    Highcharts.chart('container', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: '天分 + 努力空間 的比較'
+    },
+    xAxis: {
+        categories: ['自己', '對手']
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: '表現（分數）'
+        }
+    },
+    tooltip: {
+        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
+        shared: true
+    },
+    plotOptions: {
+        column: {
+            stacking: 'value'
+        }
+    },
+    series: [{
+        name: '努力空間',
+        data: [10, {{ rival_efforts_allowed|json }}],
+        color: "#12486c"
+    }, {
+        name: '天分',
+        data: [{{ your_talent|json }}, {{ reveal_ability|json }}],
+        color: "#00a2b3"
+    }]
+});
+</script>
+
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+
+<style>
+    .highcharts-figure, .highcharts-data-table table {
+    min-width: 310px;
+    max-width: 800px;
+    margin: 1em auto;
+}
+
+#container {
+    height: 400px;
+}
+
+.highcharts-data-table table {
+	font-family: Verdana, sans-serif;
+	border-collapse: collapse;
+	border: 1px solid #EBEBEB;
+	margin: 10px auto;
+	text-align: center;
+	width: 100%;
+	max-width: 500px;
+}
+.highcharts-data-table caption {
+    padding: 1em 0;
+    font-size: 1.2em;
+    color: #555;
+}
+.highcharts-data-table th {
+	font-weight: 600;
+    padding: 0.5em;
+}
+.highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+    padding: 0.5em;
+}
+.highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+.highcharts-data-table tr:hover {
+    background: #f1f7ff;
+}
+</style>
+
+<script>
+    // Create the chart
+Highcharts.chart('containerV', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: '這回合之前的勝負紀錄之比較'
+    },
+    accessibility: {
+        announceNewData: {
+            enabled: true
+        }
+    },
+    xAxis: {
+        type: 'category'
+    },
+    yAxis: {
+        title: {
+            text: '勝率（％）'
+        },
+        max: 100,
+
+    },
+    legend: {
+        enabled: false
+    },
+    plotOptions: {
+        series: {
+            borderWidth: 0,
+            dataLabels: {
+                enabled: true,
+                format: '{point.y:.1f}%'
+            }
+        }
+    },
+
+    tooltip: {
+        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b><br/>'
+    },
+
+    series: [
+        {
+            name: "",
+            colorByPoint: true,
+            data: [
+                {
+                    name: "自己",
+                    y: {{ your_record|json }}*100,
+                    drilldown: "自己"
+                },
+                {
+                    name: "對手",
+                    y: [{{ reveal_victory|json }}]*100,
+                    drilldown: "對手"
+                },
+
+            ]
+        }
+    ],
+    drilldown: {
+        series: [
+            {
+                name: "Chrome",
+                id: "Chrome",
+                data: [
+                    [
+                        "v65.0",
+                        0.1
+                    ],
+                    [
+                        "v64.0",
+                        1.3
+                    ],
+                    [
+                        "v63.0",
+                        53.02
+                    ],
+                    [
+                        "v62.0",
+                        1.4
+                    ],
+                    [
+                        "v61.0",
+                        0.88
+                    ],
+                    [
+                        "v60.0",
+                        0.56
+                    ],
+                    [
+                        "v59.0",
+                        0.45
+                    ],
+                    [
+                        "v58.0",
+                        0.49
+                    ],
+                    [
+                        "v57.0",
+                        0.32
+                    ],
+                    [
+                        "v56.0",
+                        0.29
+                    ],
+                    [
+                        "v55.0",
+                        0.79
+                    ],
+                    [
+                        "v54.0",
+                        0.18
+                    ],
+                    [
+                        "v51.0",
+                        0.13
+                    ],
+                    [
+                        "v49.0",
+                        2.16
+                    ],
+                    [
+                        "v48.0",
+                        0.13
+                    ],
+                    [
+                        "v47.0",
+                        0.11
+                    ],
+                    [
+                        "v43.0",
+                        0.17
+                    ],
+                    [
+                        "v29.0",
+                        0.26
+                    ]
+                ]
+            },
+            {
+                name: "Firefox",
+                id: "Firefox",
+                data: [
+                    [
+                        "v58.0",
+                        1.02
+                    ],
+                    [
+                        "v57.0",
+                        7.36
+                    ],
+                    [
+                        "v56.0",
+                        0.35
+                    ],
+                    [
+                        "v55.0",
+                        0.11
+                    ],
+                    [
+                        "v54.0",
+                        0.1
+                    ],
+                    [
+                        "v52.0",
+                        0.95
+                    ],
+                    [
+                        "v51.0",
+                        0.15
+                    ],
+                    [
+                        "v50.0",
+                        0.1
+                    ],
+                    [
+                        "v48.0",
+                        0.31
+                    ],
+                    [
+                        "v47.0",
+                        0.12
+                    ]
+                ]
+            },
+
+        ]
+    }
+});
+</script>
+
 {% endblock %}

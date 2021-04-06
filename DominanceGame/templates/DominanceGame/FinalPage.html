@@ -1,20 +1,15 @@
-
 {% extends "global/Page.html" %}
 {% load otree static %}
 
+{% block title %}
+    實驗遊戲結束了，謝謝您的參與。
+    <div>您總共累積了 {{ participant.payoff }}  </div>
+    <br>
+    <div>點數將換成報酬，加上出席費總共是 {{ payoff_plus_participation_fee }} 元給您.</div>
+    <div>您的 ID 是 {{ participant.label }}</div>
+{% endblock %}
+
 {% block content %}
 
-
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<p>實驗遊戲結束了，謝謝！</p>
-
-
-</body>
-</html>
-
 {% endblock %}
+

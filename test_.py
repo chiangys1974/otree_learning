@@ -6,3 +6,5 @@ def talents():
 
 if __name__ == '__main__':
     print(talents())
+
+print('1')

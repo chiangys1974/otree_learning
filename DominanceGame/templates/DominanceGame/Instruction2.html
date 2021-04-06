@@ -1,0 +1,26 @@
+
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block content %}
+
+<label class="col-form-label">
+</label>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p><h2>每一回合的競賽有兩個階段：</h2></p>
+<p><h4>在第一階段，您將分別決定是否要透露您的天分、以及截至目前的勝敗紀錄給對手知道。根據這些資訊，在第二階段，您再決定在競賽中要支用多少的努力。</h4></p>
+<p><h4><b>以下我們先示範您在實驗中做決定時，會看到的圖示提示：</b></h4></p>
+<img src="{% static 'comparison_full.png' %}" width="800" height="800">
+<img src="{% static 'comparison_half.png' %}" width="800" height="800">
+<p><h4>另外，在實驗中，需要等比賽相關的參與者都做完決定後，才會一起進入到下一階段，有時候需要您耐心等候一下，謝謝。</h4></p>
+<p><h4>準備好了嗎？請按NEXT鍵開始實驗！</h4></p>
+</body>
+</html>
+{% next_button %}
+{% endblock %}
